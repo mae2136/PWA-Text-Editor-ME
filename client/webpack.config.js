@@ -23,7 +23,17 @@ module.exports = () => {
 
     module: {
       rules: [
-        
+        {
+          // Adding babel loader to webpack
+          test: /\.m?js$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+            },
+          },
+        },
       ],
     },
   };
