@@ -16,7 +16,7 @@ This project is just another text editor, this time by Miguel. It allows you to 
   
 ## Installation
   
-Installation Instructions: npm i
+Installation Instructions: npm run start
   
 ## Usage
   
