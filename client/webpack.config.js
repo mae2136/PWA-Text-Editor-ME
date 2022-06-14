@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
-const { InjectManifest } = require('workbox-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
@@ -28,10 +28,24 @@ module.exports = () => {
       // CSS loader plguin
       new MiniCssExtractPlugin(),
       // Injects service worker.
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
+      new GenerateSW({
+        // Separates images from rest of service worker
+        exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+        runtimeCaching: [{
+          urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'images',
+            expiration: {
+              maxEntries: 50,
+            },
+          },
+        }],
       }),
+      // new InjectManifest({
+      //   swSrc: './src-sw.js',
+      //   swDest: 'service-worker.js',
+      // }),
       // Creates manifest.json file.
       new WebpackPwaManifest({
         fingerprints: false,
