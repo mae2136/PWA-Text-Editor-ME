@@ -23,33 +23,35 @@ module.exports = () => {
       // Generates webpack, injects bundle.
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'Webpack Plugin',
+        title: 'JATE',
       }),
       // CSS loader plguin
       new MiniCssExtractPlugin(),
+      // Injects service worker.
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js',
+      }),
       // Creates manifest.json file.
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'JATE by Miguel',
-        short_name: 'JATE',
+        short_name: 'JATE by ME',
         description: 'Just another text editor. This time by Miguel.',
         start_url: '/',
         publicPath: '/',
         background_color: '#225ca3',
         theme_color: '#225ca3',
-        crossorigin: null, 
+        crossorigin: null,
         icons: [
           {
-            src: path.resolve('./src/images/logo.png'),
+            src: path.resolve('src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
         ]
       }),
-      // Injects service worker.
-      new InjectManifest({
-        swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
-      }), 
     ],
 
     module: {
